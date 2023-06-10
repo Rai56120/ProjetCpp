@@ -25,6 +25,7 @@ private:
 	int endingPoint;
 	
 public:
+	Labyrinth();
 	Labyrinth(const int w);
 
 	Point getPoint(const int id);
@@ -33,12 +34,12 @@ public:
 
 	void setPath(const int p1, const int p2);
 	int isPath(const int p1, const int p2);
-	int chooseRand(const int *id);
+	int chooseRand(const int &id);
 	
 	void generateFusion();
 	void generateAldousBroder();
 
-	void print() const;
-	void prettyPrint();
-	void testGeneration();
+	//void print() const;
+	//void prettyPrint();
+	//void testGeneration();
 };

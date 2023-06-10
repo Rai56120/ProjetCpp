@@ -60,66 +60,66 @@ int Labyrinth::isPath(const int p1, const int p2) {
 	return ret;
 }
 
-int Labyrinth::chooseRand(const int *id) {
+int Labyrinth::chooseRand(const int &id) {
 	/*	orientation:
 			0
 		1 - + - 3
 			2
 	*/
 	int orientation = rand()%4;
-	int nextElement = *id;
+	int nextElement = id;
 
-	if(orientation == 0 && *id >= this->width) {
-		nextElement = (*id)-this->width;
+	if(orientation == 0 && id >= this->width) {
+		nextElement = id-this->width;
 	}
 
-	else if(orientation == 1 && (*id) % this->width != 0) {
-		nextElement = (*id)-1;
+	else if(orientation == 1 && id % this->width != 0) {
+		nextElement = id-1;
 	}
 
-	else if(orientation == 2 && *id < this->width*this->width - this->width) {
-		nextElement = (*id)+this->width;
+	else if(orientation == 2 && id < this->width*this->width - this->width) {
+		nextElement = id+this->width;
 	}
 
-	else if(orientation == 3 && ((*id)+1) % this->width != 0) {
-		nextElement = (*id)+1;
+	else if(orientation == 3 && (id+1) % this->width != 0) {
+		nextElement = id+1;
 	}
 
 	return nextElement;
 }
 
 void Labyrinth::generateFusion() {
-    int tot = this->width*this->width;
+    const int tot = this->width*this->width;
 
     //On crée un tableau avec les Id des cases
     int idTab[tot];
 
     for(int i = 0; i < tot; i++) { idTab[i] = i; }
 
-    int lastElement = 0;
-	int nextElement = lastElement;
+    int element;
+	int neighborElement = element;
 	bool finishFlag = false;
-
+	
 	while(!finishFlag) {
+		
+		element = rand()%tot;
+
 		//On vérifie que l'on a bin tout les id identiques
 		int sum = 0;
-		for(int i = 0; i < tot; i++) {
-			sum += idTab[i];
+		for(int i = 1; i < tot; i++) {
+			if(idTab[i-1] == idTab[i]) {
+				sum += 1;
+			}
 		}
-
-		if(!sum) { finishFlag = true; }
+		if(sum == tot-1) { finishFlag = true; }
 		
-		nextElement = this->chooseRand(&lastElement);
+		neighborElement = this->chooseRand(element);
 
-		if(idTab[nextElement] != idTab[lastElement]) {
-			this->setPath(lastElement, nextElement);
-			idTab[nextElement] = idTab[lastElement];
+		if(idTab[neighborElement] != idTab[element]) {
+			this->setPath(element, neighborElement);
+			idTab[neighborElement] = idTab[element];
 		}
-
-		lastElement = nextElement;
 	}
-    
-    cout << endl << endl << "Labyrinthe généré !" << endl;
 }
 
 void Labyrinth::generateAldousBroder() {
@@ -133,29 +133,11 @@ void Labyrinth::generateAldousBroder() {
 	
 	vect.push_back(lastElement);
 
-	while(visited.size() < tot) {		
+	while(visited.size() < (unsigned long) tot) {		
 		lastElement = vect.back();
 
-		nextElement = this->chooseRand(&lastElement);
-		/*
-		int orientation = rand()%4;
-
-		if(orientation == 0 && lastElement >= this->width) {
-			nextElement = (lastElement)-this->width;
-		}
-
-		else if(orientation == 1 && lastElement % this->width != 0) {
-			nextElement = (lastElement)-1;
-		}
-
-		else if(orientation == 2 && lastElement < this->width*this->width - this->width) {
-			nextElement = (lastElement)+this->width;
-		}
-
-		else if(orientation == 3 && ((lastElement)+1) % this->width != 0) {
-			nextElement = (lastElement)+1;
-		}
-*/
+		nextElement = this->chooseRand(lastElement);
+		
 		if(lastElement != nextElement) {
 			bool visitedFlag = 0;
 			
@@ -174,9 +156,9 @@ void Labyrinth::generateAldousBroder() {
 			vect.push_back(nextElement);
 		}
 	}
-	cout << endl << "Labyrinthe généré !" << endl;
 }
 
+/*
 void Labyrinth::print() const {
 	int tot = (this->width)*(this->width);
 	for(int i = 0; i < tot; i++) {
@@ -239,3 +221,4 @@ void Labyrinth::testGeneration(){
 		}
 	}
 }
+*/

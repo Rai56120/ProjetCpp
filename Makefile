@@ -1,25 +1,26 @@
-CXX = g++
-CXXFLAGS = -Wall -pedantic pkg-config --cflags gtkmm-3.0
-LDFLAGS = pkg-config --libs gtkmm-3.0
-EXEC = projet
+GTKMM_CF ='pkg-config gtkmm-3.0 --cflags'
+GTKMM_LD ='pkg-config gtkmm-3.0 --libs'
 
-# List of source files
-SRCS = main.cpp graph.cpp scoreboard.cpp 
+CFLAGS = $(GTKMM_CF) -Wall
+LDFLAGS = $(GTKMM_LD)
 
-# List of object files
-OBJS = $(SRCS:.cpp=.o)
+CC = g++
 
-# Default target: the program
-all: $(EXEC)
+SRC = main.cpp
 
-# Compilation rule for object files
-%.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+PROG = main
 
-# Rule for creating the program
-$(EXEC): $(OBJS)
-	$(CXX) $(OBJS) $(LDFLAGS) -o $(EXEC)
+OBJS = $(SRC:.cpp=.o)
+.SUFFIXES: .cpp .o
 
-# Clean up object files and the executable
+all: $(PROG)
+
+
+$(PROG): $(OBJS)
+		$(CC) -o $@ $^ $(LDFLAGS)
+
+main.cpp : headers/vue.hpp
+
+.PHONY: clean
 clean:
-	rm -f $(OBJS) $(EXEC)
+		rm -f *.o *- core $(PROG)

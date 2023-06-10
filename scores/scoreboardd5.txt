@@ -6,4 +6,5 @@ nouveau,150,5;
 nouveau,150,5;
 nouveau,150,5;
 nouveau,150,5;
+nouveau,150,5;
 p7,160,5;
