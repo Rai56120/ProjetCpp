@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -std=c++14 $(shell pkg-config gtkmm-3.0 --cflags)
+CFLAGS = -std=c++20 $(shell pkg-config gtkmm-3.0 --cflags)
 LDFLAGS = $(shell pkg-config gtkmm-3.0 --libs)
 
 TARGET = Labyrinth
