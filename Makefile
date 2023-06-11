@@ -1,26 +1,17 @@
-GTKMM_CF ='pkg-config gtkmm-3.0 --cflags'
-GTKMM_LD ='pkg-config gtkmm-3.0 --libs'
-
-CFLAGS = $(GTKMM_CF) -Wall
-LDFLAGS = $(GTKMM_LD)
-
 CC = g++
+CFLAGS = -std=c++14 $(shell pkg-config gtkmm-3.0 --cflags)
+LDFLAGS = $(shell pkg-config gtkmm-3.0 --libs)
 
-SRC = main.cpp
+TARGET = Labyrinth
+SOURCES = main.cpp 
 
-PROG = main
+all: $(TARGET)
 
-OBJS = $(SRC:.cpp=.o)
-.SUFFIXES: .cpp .o
+$(TARGET): $(SOURCES)
+	$(CC) $(CFLAGS) -o $(TARGET) $(SOURCES) $(LDFLAGS)
 
-all: $(PROG)
+run: $(TARGET)
+	./$(TARGET)
 
-
-$(PROG): $(OBJS)
-		$(CC) -o $@ $^ $(LDFLAGS)
-
-main.cpp : headers/vue.hpp
-
-.PHONY: clean
 clean:
-		rm -f *.o *- core $(PROG)
+	rm -f $(TARGET)
